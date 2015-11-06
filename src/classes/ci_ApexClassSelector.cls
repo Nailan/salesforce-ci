@@ -13,8 +13,11 @@ public with sharing class ci_ApexClassSelector {
 	public List<ApexClass> getAllTestClasses() {
 		List<ApexClass> result =  new List<ApexClass>();
 		List<List<SObject>> searchList = search.query(ci_ApexClassQueries.ALL_TEST_CLASSES);
-		if (searchList != null && searchList.size() > 0) {
-			result = searchList.get(0);
+		if (searchList == null || searchList.size() == 0) {
+			return result;
+		}
+		for (SObject sobj: searchList.get(0)) {
+			result.add((ApexClass) sobj);
 		}
 		return result;
 	}
