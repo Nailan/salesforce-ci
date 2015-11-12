@@ -16,6 +16,6 @@ public with sharing class ci_Runner {
 		List<ApexClass> allTestClasses = classSelector.getAllTestClasses();
 		String parentJobId = queueItemService.createApexTestQueueItemsFromTestClasses(allTestClasses);
 		settings.setParentJobId(parentJobId);
-		new ci_TestsRunResultsProcessor().scheduleTestsResultsProcessing();
+		new ci_TestsResultsProcessor().scheduleTestsResultsProcessing();
 	}
 }

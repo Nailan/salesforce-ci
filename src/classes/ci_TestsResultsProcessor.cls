@@ -2,7 +2,7 @@
 * Tests run results processor. Implemented as a scheuled job to process
 * results after tests execution.	
 */
-public with sharing class ci_TestsResultsProcessor {
+public with sharing class ci_TestsResultsProcessor implements Schedulable {
 	private ci_Settings settings;
 
 	public ci_TestsResultsProcessor() {
@@ -16,7 +16,7 @@ public with sharing class ci_TestsResultsProcessor {
 			+ settings.getTestExecutionTimeInMunutes()
 			+ ' ' + sysTime.hour() + ' ' + sysTime.day() + ' ' + sysTime.month() + ' ? ' + sysTime.year();
 
-		system.schedule(jobName, cronExp, new ci_TestsRunResultsProcessor());
+		system.schedule(jobName, cronExp, new ci_TestsResultsProcessor());
 	}
 
 	public void execute(SchedulableContext context) {
