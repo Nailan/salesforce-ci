@@ -1,12 +1,12 @@
 /**
-* Main class of CI application. 
+* Entry point of CI application. 
 */
-public with sharing class ci_Client {
+public with sharing class ci_Runner {
 	private ci_ApexClassSelector classSelector;
 	private ci_ApexTestQueueItemService queueItemService;
 	private ci_Settings settings;
 
-	public ci_Client() {
+	public ci_Runner() {
 		classSelector = ci_ApexClassSelector.getInstance();
 		queueItemService = ci_ApexTestQueueItemServiceImpl.getInstance();
 		settings = ci_Settings.getInstance();

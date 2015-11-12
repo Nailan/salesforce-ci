@@ -1,11 +1,11 @@
 /**
 * Tests run results processor. Implemented as a scheuled job to process
-* results after tests execution.
+* results after tests execution.	
 */
-public with sharing class ci_TestsRunResultsProcessor implements Schedulable {
+public with sharing class ci_TestsResultsProcessor {
 	private ci_Settings settings;
 
-	public ci_TestsRunResultsProcessor() {
+	public ci_TestsResultsProcessor() {
 		settings = ci_Settings.getInstance();
 	}
 
