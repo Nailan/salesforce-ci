@@ -4,9 +4,13 @@
 */
 public with sharing class ci_TestsResultsProcessor implements Schedulable {
 	private ci_Settings settings;
+	private ci_EmailService emailService;
+	private ci_TestReportService reportService;
 
 	public ci_TestsResultsProcessor() {
 		settings = ci_Settings.getInstance();
+		emailService = ci_EmailServiceImpl.getInstance();
+		reportService = ci_TestReportServiceImpl.getInstance();
 	}
 
 	public void scheduleTestsResultsProcessing() {
@@ -24,11 +28,8 @@ public with sharing class ci_TestsResultsProcessor implements Schedulable {
 		System.abortJob(context.getTriggerID());
 	}
 
-	public void processTestResults(){
-		//TODO: implement this part
-		/*
-		* 1. Init TestsReport with parent job id
-		* 2. Provide this report to Email service to send the email
-		*/
+	public void processTestResults() {
+		ci_TestReport report = reportService.generateTestReportFromTestRun(settings.getParentJobId());
+		emailService.sendReport(report);
 	}
 }
