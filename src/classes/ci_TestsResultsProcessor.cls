@@ -26,5 +26,9 @@ public with sharing class ci_TestsResultsProcessor implements Schedulable {
 
 	public void processTestResults(){
 		//TODO: implement this part
+		/*
+		* 1. Init TestsReport with parent job id
+		* 2. Provide this report to Email service to send the email
+		*/
 	}
 }
