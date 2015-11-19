@@ -4,13 +4,13 @@
 */
 public with sharing class ci_TestResultsProcessor implements Schedulable {
 	private ci_Settings settings;
+	private ci_ApexTestClassResultService testClassService;
 	private ci_EmailService emailService;
-	private ci_TestReportService reportService;
 
 	public ci_TestResultsProcessor() {
 		settings = ci_Settings.getInstance();
 		emailService = ci_EmailServiceImpl.getInstance();
-		reportService = ci_TestReportServiceImpl.getInstance();
+		testClassService = ci_ApexTestClassResultServiceImpl.getInstance();
 	}
 
 	public void scheduleTestsResultsProcessing() {
@@ -20,7 +20,7 @@ public with sharing class ci_TestResultsProcessor implements Schedulable {
 			+ settings.getTestExecutionTimeInMunutes()
 			+ ' ' + sysTime.hour() + ' ' + sysTime.day() + ' ' + sysTime.month() + ' ? ' + sysTime.year();
 
-		system.schedule(jobName, cronExp, new ci_TestsResultsProcessor());
+		system.schedule(jobName, cronExp, new ci_TestResultsProcessor());
 	}
 
 	public void execute(SchedulableContext context) {
@@ -29,7 +29,9 @@ public with sharing class ci_TestResultsProcessor implements Schedulable {
 	}
 
 	public void processTestResults() {
-		ci_TestReport report = reportService.generateTestReportFromTestRun(settings.getParentJobId());
+		List<ci_ApexTestClassResult> results = testClassService
+			.retrieveApexTestClassResultsFromTestRun(settings.getParentJobId());
+		ci_TestReport report = new ci_TestReport(results);
 		emailService.sendReport(report);
 	}
 }

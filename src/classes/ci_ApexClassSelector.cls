@@ -11,12 +11,20 @@ public with sharing class ci_ApexClassSelector {
 	}
 
 	public List<ApexClass> getAllTestClasses() {
+		List<List<SObject>> searchResult = search.query(ci_ApexClassQueries.ALL_TEST_CLASSES);
+		return extractApexClassesFromSearchResult(searchResult);
+	}
+
+	public List<ApexClass> getApexClassesById(List<String> ids) {
+		return Database.query(ci_ApexClassQueries.SELECT_CLASSES_BY_ID);
+	}
+
+	private List<ApexClass> extractApexClassesFromSearchResult(List<List<SObject>> searchResult) {
 		List<ApexClass> result =  new List<ApexClass>();
-		List<List<SObject>> searchList = search.query(ci_ApexClassQueries.ALL_TEST_CLASSES);
-		if (searchList == null || searchList.size() == 0) {
+		if (searchResult == null || searchResult.size() == 0) {
 			return result;
 		}
-		for (SObject sobj: searchList.get(0)) {
+		for (SObject sobj: searchResult.get(0)) {
 			result.add((ApexClass) sobj);
 		}
 		return result;
