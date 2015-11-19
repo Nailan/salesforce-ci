@@ -16,7 +16,7 @@ public with sharing class ci_ApexClassSelector {
 	}
 
 	public List<ApexClass> getApexClassesById(Set<String> ids) {
-		return Database.query(ci_ApexClassQueries.SELECT_CLASSES_BY_ID);
+		return convertFromSObjectList(Database.query(ci_ApexClassQueries.SELECT_CLASSES_BY_ID));
 	}
 
 	private List<ApexClass> extractApexClassesFromSearchResult(List<List<SObject>> searchResult) {
@@ -24,7 +24,12 @@ public with sharing class ci_ApexClassSelector {
 		if (searchResult == null || searchResult.size() == 0) {
 			return result;
 		}
-		for (SObject sobj: searchResult.get(0)) {
+		return convertFromSObjectList(searchResult.get(0));
+	}
+
+	private List<ApexClass> convertFromSObjectList(List<SObject> sobjectList) {
+		List<ApexClass> result = new List<ApexClass>();
+		for(SObject sobj: sobjectList) {
 			result.add((ApexClass) sobj);
 		}
 		return result;

@@ -11,7 +11,11 @@ public with sharing class ci_ApexTestResultSelector {
 	}
 
 	public List<ApexTestResult> getTestResultsByParentJobId(String parentJobId) {
-		//TODO: implement
-		return null;
+		List<SObject> queryResult = Database.query(ci_ApexTestResultQueries.SELECT_BY_PARENT_JOB_ID);
+		List<ApexTestResult> results = new List<ApexTestResult>();
+		for(SObject sobj: queryResult) {
+			results.add((ApexTestResult) sobj);
+		}
+		return results;
 	}
 }
