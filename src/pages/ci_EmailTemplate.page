@@ -1,0 +1,3 @@
+<apex:page showHeader="false" sidebar="false">
+	@totalTestsNumber@ run, @failedTestsNumber@ failed, @passedTestsNumber@ passed.
+</apex:page>
