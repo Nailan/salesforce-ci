@@ -15,7 +15,7 @@ public with sharing class ci_ApexClassSelector {
 		return extractApexClassesFromSearchResult(searchResult);
 	}
 
-	public List<ApexClass> getApexClassesById(List<String> ids) {
+	public List<ApexClass> getApexClassesById(Set<String> ids) {
 		return Database.query(ci_ApexClassQueries.SELECT_CLASSES_BY_ID);
 	}
 

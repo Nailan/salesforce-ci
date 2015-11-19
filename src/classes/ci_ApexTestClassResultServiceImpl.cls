@@ -1,9 +1,12 @@
 public with sharing class ci_ApexTestClassResultServiceImpl implements ci_ApexTestClassResultService {
 	private static ci_ApexTestClassResultServiceImpl instance;
-	private ci_ApexClassSelector selector;
+
+	private ci_ApexClassSelector classSelector;
+	private ci_ApexTestResultSelector testResultSelector;
 
 	private ci_ApexTestClassResultServiceImpl() {
-		selector = ci_ApexClassSelector.getInstance();
+		classSelector = ci_ApexClassSelector.getInstance();
+		testResultSelector = ci_ApexTestResultSelector.getInstance();
 	}
 
 	public static ci_ApexTestClassResultServiceImpl getInstance() {
@@ -14,9 +17,27 @@ public with sharing class ci_ApexTestClassResultServiceImpl implements ci_ApexTe
 	}
 
 	public List<ci_ApexTestClassResult> retrieveApexTestClassResultsFromTestRun(String parentJobId) {
-		//TODO: implement
-		return null;
+		List<ApexTestResult> testResults = testResultSelector.getTestResultsByParentJobId(parentJobId);
+		Map<String, List<ApexTestResult>> classIdTestResultMap = new Map<String,  List<ApexTestResult>>();
+		Set<String> classIdSet = new Set<String>();
+		for (ApexTestResult testResult: testResults) {
+			String classId = testResult.ApexClassId;
+			classIdSet.add(classId);
+			List<ApexTestResult> classTests;
+			if (classIdTestResultMap.get(classId) == null) {
+				classTests = new List<ApexTestResult>();
+				
+			} else {
+				classTests = classIdTestResultMap.get(classId);
+			}
+			classTests.add(testResult);
+			classIdTestResultMap.put(classId, classTests);
+		}
+		List<ApexClass> testClasses = classSelector.getApexClassesById(classIdSet);
+		List<ci_ApexTestClassResult> resultsForClass = new List<ci_ApexTestClassResult>();
+		for (ApexClass testClass: testClasses) {
+			resultsForClass.add(new ci_ApexTestClassResult(testClass, classIdTestResultMap.get(testClass.Id)));
+		}
+		return resultsForClass;
 	}
-
-
 }
