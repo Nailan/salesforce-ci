@@ -6,11 +6,14 @@ public with sharing class ci_Settings {
 		List<Salesforce_CI_Settings__c> allSettings = Salesforce_CI_Settings__c.getAll().values();
 		if (allSettings == null || allSettings.size() == 0) {
 			setting = new Salesforce_CI_Settings__c();
+			setting.Name = ci_Dictionary.SETTINGS_NAME;
+			setting.Tests_Execution_Time_Minutes__c = ci_Dictionary.SETTINGS_DEFAULT_TEST_EXECUTION_TIME_MINUTES;
 			insert setting;
 		}
 		if (allSettings.size() == 1) {
 			setting = allSettings.get(0);
-		} else {
+		} 
+		if (allSettings.size() > 1 ) {
 			throw new ci_WrongSettingsException('Duplicate Salesforce CI setting found');
 		}
 	}

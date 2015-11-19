@@ -16,16 +16,21 @@ public with sharing class ci_TestResultsProcessor implements Schedulable {
 	public void scheduleTestsResultsProcessing() {
 		String jobName = 'CI test running ' + String.valueOf(Math.rint(Math.random() * 1000));
 		Datetime sysTime = system.now();
-		String cronExp = '' + sysTime.second() + ' ' + sysTime.minute() 
-			+ settings.getTestExecutionTimeInMunutes()
+		String cronExp = '' + sysTime.second() + ' ' + (sysTime.minute() 
+			+ settings.getTestExecutionTimeInMunutes())
 			+ ' ' + sysTime.hour() + ' ' + sysTime.day() + ' ' + sysTime.month() + ' ? ' + sysTime.year();
-
+		system.debug('cron=' + cronExp);
 		system.schedule(jobName, cronExp, new ci_TestResultsProcessor());
 	}
 
 	public void execute(SchedulableContext context) {
-		processTestResults();
-		System.abortJob(context.getTriggerID());
+		try {
+			processTestResults();
+		} catch(Exception e) {
+			throw e;
+		} finally {
+			System.abortJob(context.getTriggerID());
+		}
 	}
 
 	public void processTestResults() {

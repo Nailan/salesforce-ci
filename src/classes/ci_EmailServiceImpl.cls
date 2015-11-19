@@ -11,7 +11,7 @@ public with sharing class ci_EmailServiceImpl implements ci_EmailService {
 	}
 
 	public void sendReport(ci_TestReport report) {
-		String emailTemplate = new PageReference(ci_Dictionary.EMAIL_TEMPLATE_PAGE_URL)
+		String emailTemplate = Page.ci_EmailTemplate
 			.getContent().toString();
 		String emailBody = emailTemplate
 			.replaceAll('@totalTestsNumber@', String.valueOf(report.getTotalTestsNumber()))
