@@ -14,12 +14,12 @@ public with sharing class ci_TestResultsProcessor implements Schedulable {
 	}
 
 	public void scheduleTestsResultsProcessing() {
-		String jobName = 'CI test running ' + String.valueOf(Math.rint(Math.random() * 1000));
+		String jobName = ci_Dictionary.SCHEDULED_JOB_NAME + String.valueOf(Math.rint(Math.random() * 1000));
 		Datetime sysTime = system.now();
 		String cronExp = '' + sysTime.second() + ' ' + (sysTime.minute() 
 			+ settings.getTestExecutionTimeInMunutes())
 			+ ' ' + sysTime.hour() + ' ' + sysTime.day() + ' ' + sysTime.month() + ' ? ' + sysTime.year();
-		system.debug('cron=' + cronExp);
+
 		system.schedule(jobName, cronExp, new ci_TestResultsProcessor());
 	}
 
