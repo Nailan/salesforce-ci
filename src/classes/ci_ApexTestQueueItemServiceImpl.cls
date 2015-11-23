@@ -2,7 +2,9 @@ public with sharing class ci_ApexTestQueueItemServiceImpl implements ci_ApexTest
 	private static ci_ApexTestQueueItemService instance;
 	private ci_ApexTestQueueItemSelector selector;
 
-	private ci_ApexTestQueueItemServiceImpl() {}
+	private ci_ApexTestQueueItemServiceImpl() {
+		selector = ci_ApexTestQueueItemSelector.getInstance();
+	}
 
 	public static ci_ApexTestQueueItemService getInstance() {
 		if (instance == null) {
