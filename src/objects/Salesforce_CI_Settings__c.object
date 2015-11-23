@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <customSettingsVisibility>Public</customSettingsVisibility>
+    <description>Stores settings for Continuous Integration tool for Salesforce</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Parent_Job_Id__c</fullName>
+        <description>Id if test execution parent job. It is system setting, please do not change it manually.</description>
+        <externalId>false</externalId>
+        <label>Parent Job Id</label>
+        <length>128</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Tests_Execution_Time_Minutes__c</fullName>
+        <defaultValue>5</defaultValue>
+        <description>Number of minutes for unit tests execution. Default value is 5 minutes.</description>
+        <externalId>false</externalId>
+        <label>Tests Execution Time Minutes</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Salesforce CI Settings</label>
+</CustomObject>

@@ -19,7 +19,6 @@ public with sharing class ci_ApexTestQueueItemServiceImpl implements ci_ApexTest
             items.add(new ApexTestQueueItem(ApexClassId = clazz.Id));
     	}
     	insert items;
-    	system.debug('qeue items: ' + items);
     	String asynchJobId = items.size() > 0 
     		? selector.getQueueItemById(items[0].id).ParentJobId 
     		: null;
