@@ -1,3 +1,23 @@
-<apex:page showHeader="false" sidebar="false">
-	@totalTestsNumber@ run, @failedTestsNumber@ failed, @passedTestsNumber@ passed.
+<apex:page showHeader="false" sidebar="false" controller="ci_EmailTemplateController">
+	<apex:pageBlock title="Test Results">
+		<apex:outputText> 
+			{!report.totalTestsNumber} run, {!report.failedTestsNumber} failed, {!report.passedTestsNumber} passed.
+		</apex:outputText>
+		<apex:repeat value="{!report.testClassesResults}" var="classRes">
+			<p>
+				<h1>{!classRes.clazz.Name}</h1>
+				<apex:dataTable value="{!classRes.results}" var="res" width="100%">
+					<apex:column title="Method" width="20%">
+						{!res.MethodName}
+					</apex:column>
+					<apex:column title="Result" width="10%">
+						{!res.Outcome}
+					</apex:column>
+					<apex:column title="Message" width="70%">
+						{!res.Message} {!res.Stacktrace}
+					</apex:column>
+				</apex:dataTable>
+			</p>
+		</apex:repeat>
+	</apex:pageBlock>
 </apex:page>

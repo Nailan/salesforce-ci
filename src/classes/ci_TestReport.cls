@@ -37,4 +37,8 @@ public with sharing class ci_TestReport {
 	public Integer getTotalTestsNumber() {
 		return totalTestsNumber;
 	}
+
+	public List<ci_ApexTestClassResult> getTestClassesResults() {
+		return testClassesResults;
+	}
 }

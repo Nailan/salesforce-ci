@@ -11,15 +11,15 @@ public with sharing class ci_EmailServiceImpl implements ci_EmailService {
 	}
 
 	public void sendReport(ci_TestReport report) {
-		String emailTemplate = Page.ci_EmailTemplate
+		String emailBody = Page.ci_EmailTemplate
 			.getContent().toString();
-		String emailBody = emailTemplate
-			.replaceAll('@totalTestsNumber@', String.valueOf(report.getTotalTestsNumber()))
-			.replaceAll('@failedTestsNumber@',  String.valueOf(report.getFailedTestsNumber()))
-			.replaceAll('@passedTestsNumber@', String.valueOf(report.getPassedTestsNumber()));
 		Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 		mail.setHtmlBody(emailBody);
-		mail.setSubject('Tests');
+		if (report.getFailedTestsNumber() == 0) {
+			mail.setSubject('All Tests Passed');
+		} else {
+			mail.setSubject('Tests Failed');
+		}
 		mail.setToAddresses(new String [] {'p.demeshchik@gmail.com'});
 		mail.setSenderDisplayName('Salesforce CI');
 		Messaging.sendEmail(new Messaging.SingleEmailMessage[] {mail});
